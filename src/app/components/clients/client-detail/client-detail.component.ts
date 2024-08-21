@@ -12,11 +12,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ClientService } from '../../../services/client.service';
 import Swal from 'sweetalert2';
+import { NoSpecialCharactersDirective } from '../../../directives/no-special-characters.directive';
 
 @Component({
   selector: 'app-client-detail',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NoSpecialCharactersDirective,
+  ],
   templateUrl: './client-detail.component.html',
   styleUrls: ['./client-detail.component.css'],
 })

@@ -2,17 +2,23 @@
   <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
     <div class="mb-4">
       <label for="identification" class="block text-gray-700">Identification</label>
-      <input id="identification" formControlName="identification" required class="w-full p-2 border border-gray-300 rounded">
+      <input type="number" id="identification" formControlName="identification" required class="w-full p-2 border border-gray-300 rounded">
     </div>
 
     <div class="mb-4">
       <label for="firstName" class="block text-gray-700">First Name</label>
-      <input id="firstName" formControlName="firstName" required class="w-full p-2 border border-gray-300 rounded">
+      <input id="firstName" formControlName="firstName" required class="w-full p-2 border border-gray-300 rounded" appNoSpecialCharacters>
+      <div *ngIf="clientForm.get('firstName')?.hasError('noSpecialCharacters') && clientForm.get('firstName')?.touched" class="text-red-500">
+        First Name cannot contain special characters.
+      </div>
     </div>
 
     <div class="mb-4">
       <label for="lastName" class="block text-gray-700">Last Name</label>
-      <input id="lastName" formControlName="lastName" required class="w-full p-2 border border-gray-300 rounded">
+      <input id="lastName" formControlName="lastName" required class="w-full p-2 border border-gray-300 rounded" appNoSpecialCharacters>
+      <div *ngIf="clientForm.get('lastName')?.hasError('noSpecialCharacters') && clientForm.get('lastName')?.touched" class="text-red-500">
+        Last Name cannot contain special characters.
+      </div>
     </div>
 
     <div class="mb-4">
