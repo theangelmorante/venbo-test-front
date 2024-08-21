@@ -16,6 +16,9 @@ import { Router } from '@angular/router';
 export class ClientListComponent implements OnInit {
   clients: Client[] = [];
   filterTerm: string = '';
+  typeFilter: string = '';
+  statusFilter: string = '';
+  regularFilter: string = '';
 
   constructor(private clientService: ClientService, private router: Router) {}
 
@@ -33,14 +36,27 @@ export class ClientListComponent implements OnInit {
   }
 
   filteredClients() {
-    return this.clients.filter(
-      (client) =>
-        client.firstName
-          .toLowerCase()
-          .includes(this.filterTerm.toLowerCase()) ||
-        client.lastName.toLowerCase().includes(this.filterTerm.toLowerCase()) ||
-        client.email.toLowerCase().includes(this.filterTerm.toLowerCase())
-    );
+    return this.clients
+      .filter(
+        (client) =>
+          client.firstName
+            .toLowerCase()
+            .includes(this.filterTerm.toLowerCase()) ||
+          client.lastName.toLowerCase().includes(this.filterTerm.toLowerCase())
+      )
+      .filter(
+        (client) => this.typeFilter === '' || client.type === this.typeFilter
+      )
+      .filter(
+        (client) =>
+          this.statusFilter === '' ||
+          (this.statusFilter === 'active' ? client.isActive : !client.isActive)
+      )
+      .filter(
+        (client) =>
+          this.regularFilter === '' ||
+          (this.regularFilter === 'true' ? client.isRegular : !client.isRegular)
+      );
   }
 
   editClient(client: Client): void {

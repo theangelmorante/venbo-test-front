@@ -2,7 +2,7 @@
   <div class="mb-4">
     <input 
       type="text" 
-      placeholder="Search by first name, last name or email" 
+      placeholder="Search by first name, last name" 
       class="w-full p-2 border border-gray-300 rounded"
       [(ngModel)]="filterTerm"
     >
@@ -10,6 +10,34 @@
   <div class="mb-4">
     <button class="bg-green-500 text-white px-2 py-1 rounded" (click)="createClient()">Add New Client</button>
   </div>
+
+  <div class="mb-4">
+    <label for="typeFilter" class="block text-gray-700">Filter by Type</label>
+    <select id="typeFilter" [(ngModel)]="typeFilter" class="w-full p-2 border border-gray-300 rounded">
+      <option value="">All</option>
+      <option value="PERSON">Person</option>
+      <option value="COMPANY">Company</option>
+    </select>
+  </div>
+
+  <div class="mb-4">
+    <label for="statusFilter" class="block text-gray-700">Filter by Status</label>
+    <select id="statusFilter" [(ngModel)]="statusFilter" class="w-full p-2 border border-gray-300 rounded">
+      <option value="">All</option>
+      <option value="active">Active</option>
+      <option value="inactive">Inactive</option>
+    </select>
+  </div>
+
+  <div class="mb-4">
+    <label for="regularFilter" class="block text-gray-700">Filter by Regular Client</label>
+    <select id="regularFilter" [(ngModel)]="regularFilter" class="w-full p-2 border border-gray-300 rounded">
+      <option value="">All</option>
+      <option value="true">Regular</option>
+      <option value="false">Not Regular</option>
+    </select>
+  </div>
+
   <table class="min-w-full bg-white">
     <thead class="bg-gray-800 text-white">
       <tr>
