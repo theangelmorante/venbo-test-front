@@ -28,7 +28,12 @@ export class ClientService {
   }
 
   createClient(client: any): Observable<any> {
-    return this.http.post(this.baseUrl, client, { headers: this.getHeaders() });
+    console.log(client);
+    return this.http.post(
+      this.baseUrl,
+      { ...client, identification: client.identification.toString() },
+      { headers: this.getHeaders() }
+    );
   }
 
   updateClient(id: string, client: any): Observable<any> {
