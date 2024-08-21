@@ -19,6 +19,9 @@ export class ClientListComponent implements OnInit {
   typeFilter: string = '';
   statusFilter: string = '';
   regularFilter: string = '';
+  currentPage: number = 1;
+  itemsPerPage: number = 2;
+  totalPages: number = 1;
 
   constructor(private clientService: ClientService, private router: Router) {}
 
@@ -26,6 +29,7 @@ export class ClientListComponent implements OnInit {
     this.clientService.getClients().subscribe({
       next: (response: any) => {
         this.clients = response.clients;
+        this.calculateTotalPages();
       },
       error: (err) => {
         if (err.status === 401) {
@@ -33,6 +37,11 @@ export class ClientListComponent implements OnInit {
         }
       },
     });
+  }
+
+  calculateTotalPages(): void {
+    const filtered = this.filteredClients();
+    this.totalPages = Math.ceil(filtered.length / this.itemsPerPage);
   }
 
   filteredClients() {
@@ -72,6 +81,26 @@ export class ClientListComponent implements OnInit {
       this.clientService.deleteClient(id).subscribe(() => {
         this.clients = this.clients.filter((client) => client._id !== id);
       });
+    }
+  }
+
+  paginatedClients() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.filteredClients().slice(startIndex, endIndex);
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.calculateTotalPages();
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.calculateTotalPages();
     }
   }
 }
