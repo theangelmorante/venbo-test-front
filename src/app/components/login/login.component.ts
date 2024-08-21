@@ -38,7 +38,6 @@ export class LoginComponent implements OnInit {
       this.apiService.postData('auth/login', this.loginForm.value).subscribe({
         next: (response: any) => {
           localStorage.setItem('jwt', response.token);
-          console.log(response);
           this.router.navigate(['/clients']);
         },
         error: (err) => {

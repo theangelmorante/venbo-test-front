@@ -9,6 +9,11 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'clients', component: ClientsComponent, canActivate: [AuthGuard] },
   {
+    path: 'clients/new',
+    component: ClientDetailComponent,
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'clients/:id',
     component: ClientDetailComponent,
     canActivate: [AuthGuard],

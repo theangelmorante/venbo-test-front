@@ -7,24 +7,26 @@
       [(ngModel)]="filterTerm"
     >
   </div>
-
+  <div class="mb-4">
+    <button class="bg-green-500 text-white px-2 py-1 rounded" (click)="createClient()">Add New Client</button>
+  </div>
   <table class="min-w-full bg-white">
     <thead class="bg-gray-800 text-white">
       <tr>
+        <th class="w-1/4 px-4 py-2">Identifications</th>
         <th class="w-1/4 px-4 py-2">First Name</th>
         <th class="w-1/4 px-4 py-2">Last Name</th>
-        <th class="w-1/4 px-4 py-2">Email</th>
         <th class="w-1/4 px-4 py-2">Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let client of filteredClients()">
+        <td class="border px-4 py-2">{{ client.identification }}</td>
         <td class="border px-4 py-2">{{ client.firstName }}</td>
         <td class="border px-4 py-2">{{ client.lastName }}</td>
-        <td class="border px-4 py-2">{{ client.email }}</td>
         <td class="border px-4 py-2 text-center">
           <button class="bg-blue-500 text-white px-2 py-1 rounded" (click)="editClient(client)">Edit</button>
-          <button class="bg-red-500 text-white px-2 py-1 rounded ml-2" (click)="deleteClient(client.id)">Delete</button>
+          <button class="bg-red-500 text-white px-2 py-1 rounded ml-2" (click)="deleteClient(client._id)">Delete</button>
         </td>
       </tr>
     </tbody>
