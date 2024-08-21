@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
+import { ClientListComponent } from './client-list/client-list.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-clients',
   standalone: true,
-  imports: [],
+  imports: [ClientListComponent, HttpClientModule],
   templateUrl: './clients.component.html',
-  styleUrl: './clients.component.css'
+  styleUrls: ['./clients.component.css'],
 })
-export class ClientsComponent {
-
-}
+export class ClientsComponent {}
