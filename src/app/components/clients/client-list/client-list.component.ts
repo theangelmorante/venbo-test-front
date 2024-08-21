@@ -5,6 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { Client } from '../../../../shared/types/clients.type';
 import { Router } from '@angular/router';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+
+const EXCEL_TYPE =
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
   selector: 'app-client-list',
@@ -20,7 +26,7 @@ export class ClientListComponent implements OnInit {
   statusFilter: string = '';
   regularFilter: string = '';
   currentPage: number = 1;
-  itemsPerPage: number = 2;
+  itemsPerPage: number = 10;
   totalPages: number = 1;
 
   constructor(private clientService: ClientService, private router: Router) {}
@@ -102,5 +108,36 @@ export class ClientListComponent implements OnInit {
       this.currentPage++;
       this.calculateTotalPages();
     }
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    saveAs(data, `${fileName}_export_${new Date().getTime()}.xlsx`);
+  }
+
+  exportToExcel(): void {
+    const filteredClients = this.filteredClients().map((client) => ({
+      Identification: client.identification,
+      Name: client.firstName,
+      Surname: client.lastName,
+      Email: client.email,
+      Address: client.address,
+      Type: client.type,
+      IsRegular: client.isRegular ? 'Yes' : 'No',
+      IsActive: client.isActive ? 'Yes' : 'No',
+    }));
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(filteredClients);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { Clients: worksheet },
+      SheetNames: ['Clients'],
+    };
+
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
+    });
+
+    this.saveAsExcelFile(excelBuffer, 'clients');
   }
 }
