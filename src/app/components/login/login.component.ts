@@ -2,10 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../services/api.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -15,19 +11,12 @@ import { HttpClientModule } from '@angular/common/http';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    CommonModule,
-    HttpClientModule,
-  ],
+  imports: [ReactiveFormsModule, CommonModule, HttpClientModule],
   providers: [ApiService],
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+  errorMessage: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -43,16 +32,27 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+    console.log(this.loginForm.valid);
     if (this.loginForm.valid) {
-      this.apiService.postData('login', this.loginForm.value).subscribe({
+      this.errorMessage = '';
+      this.apiService.postData('auth/login', this.loginForm.value).subscribe({
         next: (response: any) => {
           localStorage.setItem('jwt', response.token);
+          console.log(response);
           this.router.navigate(['/clients']);
         },
         error: (err) => {
-          console.error('Login failed', err);
+          console.log(err);
+          if (err.status === 401) {
+            this.errorMessage = 'Incorrect username or password.'; // Mensaje de error para 401
+          } else {
+            this.errorMessage =
+              'An unexpected error occurred. Please try again later.';
+          }
         },
       });
+    } else {
+      this.errorMessage = 'Please fill out the form.';
     }
   }
 }

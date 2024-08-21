@@ -2,23 +2,28 @@
   <div class="bg-white p-8 rounded-lg shadow-lg w-96">
     <h2 class="text-2xl font-semibold mb-6 text-center">Login</h2>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <mat-form-field appearance="outline" class="w-full mb-4">
-        <mat-label>Username</mat-label>
-        <input matInput formControlName="username" required>
-        <mat-error *ngIf="loginForm.controls['username'].invalid && loginForm.controls['username'].touched">
+      <div *ngIf="errorMessage" class="text-red-600 text-sm mb-4">
+        {{ errorMessage }}
+      </div>
+      <div class="mb-4">
+        <label for="username" class="block text-gray-700">Username</label>
+        <input id="username" formControlName="username" required class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <div *ngIf="loginForm.controls['username'].invalid && loginForm.controls['username'].touched" class="text-red-600 text-sm">
           Username is required
-        </mat-error>
-      </mat-form-field>
+        </div>
+      </div>
 
-      <mat-form-field appearance="outline" class="w-full mb-6">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" formControlName="password" required>
-        <mat-error *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].touched">
+      <div class="mb-6">
+        <label for="password" class="block text-gray-700">Password</label>
+        <input id="password" type="password" formControlName="password" required class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <div *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].touched" class="text-red-600 text-sm">
           Password is required
-        </mat-error>
-      </mat-form-field>
+        </div>
+      </div>
 
-      <button mat-raised-button color="primary" type="submit" class="w-full" [disabled]="loginForm.invalid">Login</button>
+      <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
+        Login
+      </button>
     </form>
   </div>
 </div>
